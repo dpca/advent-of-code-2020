@@ -5,8 +5,8 @@ import Control.Monad
 import qualified Data.Map as M
 import Data.Either
 
-required :: [String]
-required = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"]
+requiredFields :: [String]
+requiredFields = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"]
 
 validByr :: String -> Bool
 validByr byr = case readMaybe byr :: Maybe Int of
@@ -86,7 +86,7 @@ validPassports :: Either a [Passport] -> [Passport]
 validPassports passports = filter isValid rightPassports
     where rightPassports = fromRight [] passports
           isValid passport = allPresent passport && allValid passport
-          allPresent passport = all (`M.member` passport) required
+          allPresent passport = all (`M.member` passport) requiredFields
           allValid passport = all isValidEntry $ M.toList passport
 
 main = do

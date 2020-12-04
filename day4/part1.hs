@@ -3,7 +3,7 @@ import Text.Parsec.String
 import qualified Data.Map as M
 import Data.Either
 
-required = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"]
+requiredFields = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"]
 
 keyValParser :: Parser (String, String)
 keyValParser = do
@@ -25,7 +25,7 @@ type Passport = M.Map String String
 validPassports :: Either ParseError [Passport] -> [Passport]
 validPassports passports = filter isValid rightPassports
     where rightPassports = fromRight [] passports
-          isValid passport = all (`M.member` passport) required
+          isValid passport = all (`M.member` passport) requiredFields
 
 main = do
     contents <- readFile "input.txt"
