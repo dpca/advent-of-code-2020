@@ -1,13 +1,9 @@
 import Text.Parsec
 import Text.Parsec.String
-import Control.Monad
 import qualified Data.Map as M
 import Data.Either
 
 required = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"]
-
-whitespace :: Parser ()
-whitespace = void $ many $ oneOf " \n\t"
 
 keyValParser :: Parser (String, String)
 keyValParser = do
@@ -24,6 +20,9 @@ passportParser = do
 
 contentParser = many passportParser
 
+type Passport = M.Map String String
+
+validPassports :: Either ParseError [Passport] -> Int
 validPassports passports = length $ filter isValid (fromRight [] passports)
     where isValid passport = all (`M.member` passport) required
 

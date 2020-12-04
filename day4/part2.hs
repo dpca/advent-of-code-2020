@@ -82,6 +82,7 @@ isValidEntry (key, val) =
 
 type Passport = M.Map String String
 
+validPassports :: Either a [Passport] -> [Passport]
 validPassports passports = filter isValid parsedPassports
     where parsedPassports = fromRight [] passports
           isValid passport = allPresent passport && allValid passport
