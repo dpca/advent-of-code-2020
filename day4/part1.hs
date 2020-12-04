@@ -22,11 +22,12 @@ contentParser = many passportParser
 
 type Passport = M.Map String String
 
-validPassports :: Either ParseError [Passport] -> Int
-validPassports passports = length $ filter isValid (fromRight [] passports)
-    where isValid passport = all (`M.member` passport) required
+validPassports :: Either ParseError [Passport] -> [Passport]
+validPassports passports = filter isValid rightPassports
+    where rightPassports = fromRight [] passports
+          isValid passport = all (`M.member` passport) required
 
 main = do
     contents <- readFile "input.txt"
     let passports = runParser contentParser () "input.txt" contents
-    print $ validPassports passports
+    print $ length (validPassports passports)
