@@ -32,7 +32,7 @@ findSeat (rowCode, colCode) = row * 8 + col
 
 findMissingSeat :: [SeatCode] -> SeatCode
 findMissingSeat seats = missingSeat
-    where (_, missingSeat) = foldl findMissing (0, 0) seats
+    where (_, missingSeat) = foldl findMissing (0, 0) (sort seats)
           findMissing (lastSeat, missingSeat) seat = if seat - 1 == lastSeat
                                               then (seat, missingSeat)
                                               else (seat, seat - 1)
@@ -40,5 +40,5 @@ findMissingSeat seats = missingSeat
 main = do
     input <- readFile "input.txt"
     let seatCodes = parseSeats input
-    let seats = sort $ map findSeat seatCodes
+    let seats = map findSeat seatCodes
     print $ findMissingSeat seats
