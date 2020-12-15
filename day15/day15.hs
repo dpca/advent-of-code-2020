@@ -1,4 +1,4 @@
-import Data.Map
+import Data.IntMap
 
 numberAt :: [Int] -> Int -> Int
 numberAt startingNumbers end = go 1 (head startingNumbers) empty
