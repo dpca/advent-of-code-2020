@@ -56,8 +56,8 @@ narrowRules m ticket = foldl innerFold m $ zip [1..] ticket
     where innerFold acc (pos, x) = M.insert pos (findValidRules (acc M.! pos) x) acc
           findValidRules rules x = filter (ruleMatches x) rules
 
-validRules :: [Rule] -> [Ticket] -> M.Map Position [RuleName]
-validRules rules tickets = M.map (map (\(name, _, _) -> name)) finalRules
+toRuleMap :: [Rule] -> [Ticket] -> M.Map Position [RuleName]
+toRuleMap rules tickets = M.map (map (\(name, _, _) -> name)) finalRules
     where finalRules = foldl narrowRules initialRules tickets
           initialRules = M.fromList (map (, rules) [1..length (head tickets)])
 
@@ -74,7 +74,7 @@ processRuleMap init = go init M.empty
 findAnswer :: [Rule] -> Ticket -> [Ticket] -> Int
 findAnswer rules myTicket nearbyTickets =
     let validTickets = filter (isValid rules) nearbyTickets
-        ruleLocations = processRuleMap $ validRules rules validTickets
+        ruleLocations = processRuleMap $ toRuleMap rules validTickets
         departures = [
                          "departure location",
                          "departure station",
