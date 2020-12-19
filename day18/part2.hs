@@ -33,14 +33,15 @@ makeTree (Paren lst) = mult [] lst
           add [Paren l] []     = makeTree $ Paren l
 
 execute :: Tree -> Int
-execute (Leaf x) = x
-execute (Add x y) = execute x + execute y
+execute (Leaf x)   = x
+execute (Add x y)  = execute x + execute y
 execute (Mult x y) = execute x * execute y
 
 executeLine :: String -> Int
-executeLine line = execute tree
-    where tree = makeTree ast
-          ast  = fromRight (Paren []) $ parse parseInput "input" line
+executeLine line =
+    let ast  = fromRight (Paren []) $ parse parseInput "input" line
+        tree = makeTree ast
+     in execute tree
 
 main = do
     input <- readFile "input.txt"
