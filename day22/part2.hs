@@ -8,10 +8,10 @@ parsePlayer player =
 
 playGame :: [Int] -> [Int] -> Either [Int] [Int]
 playGame = go S.empty
-    where go acc x y | S.member (x, y) acc = Left x
-          go acc x y | S.member (x, y) acc = Left x
-          go _   x [] = Left x
+    where go _   x [] = Left x
           go _   [] y = Right y
+          go acc x y | S.member (x, y) acc = Left x
+          go acc x y | S.member (x, y) acc = Left x
           go acc xl@(x:xs) yl@(y:ys) | x > length xs || y > length ys =
               if x > y then go (S.insert (xl, yl) acc) (xs ++ [x,y]) ys
                        else go (S.insert (xl, yl) acc) xs (ys ++ [y,x])

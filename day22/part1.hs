@@ -19,5 +19,5 @@ main = do
     input <- readFile "input.txt"
     let (player1:player2:_) = map parsePlayer $ splitOn "\n\n" input
     case playGame player1 player2 of
-      Left x  -> print $ score x
-      Right y -> print $ score y
+      Left x  -> print $ "Player 1 wins with " ++ show (score x) ++ " points"
+      Right y -> print $ "Player 2 wins with " ++ show (score y) ++ " points"
